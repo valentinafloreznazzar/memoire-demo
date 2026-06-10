@@ -87,7 +87,9 @@ body{font-family:var(--sans);background:var(--noir);color:var(--texte);font-size
 .arch-grid{display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;margin-top:3rem;}
 .obj-card{background:var(--ivory);border:.5px solid var(--ivory-3);cursor:pointer;transition:transform .25s ease,border-color .25s ease;}
 .obj-card:hover{transform:translateY(-3px);border-color:var(--or);}
-.obj-visual{height:200px;background:linear-gradient(135deg,var(--ivory-2),var(--ivory-3));display:flex;align-items:center;justify-content:center;position:relative;}
+.obj-visual{height:240px;background:var(--ivory-2);display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden;}
+.obj-visual img{width:100%;height:100%;object-fit:cover;transition:transform .5s ease;}
+.obj-card:hover .obj-visual img{transform:scale(1.04);}
 .obj-visual .mono{font-family:var(--serif);font-size:56px;color:var(--or);opacity:.45;letter-spacing:0.1em;}
 .obj-badge{position:absolute;top:12px;right:12px;font-size:9px;letter-spacing:0.14em;text-transform:uppercase;padding:4px 10px;}
 .obj-badge.done{background:rgba(42,106,74,0.12);color:var(--vert);border:.5px solid rgba(42,106,74,0.4);}
@@ -101,10 +103,22 @@ body{font-family:var(--sans);background:var(--noir);color:var(--texte);font-size
 .obj-prov{font-size:9px;letter-spacing:0.1em;text-transform:uppercase;color:var(--or-3);border:.5px solid var(--ivory-3);padding:5px 10px;display:inline-block;margin:8px 0;}
 .obj-link{font-size:11px;color:var(--texte-soft);margin-top:6px;}
 .obj-link:hover{text-decoration:underline;color:var(--or-3);}
+/* recommendations */
+.rec-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1.25rem;margin-top:2rem;}
+.rec-card{background:var(--ivory);border:.5px solid var(--ivory-3);transition:transform .25s ease,border-color .25s ease;}
+.rec-card:hover{transform:translateY(-3px);border-color:var(--or);}
+.rec-img{height:160px;overflow:hidden;background:var(--ivory-2);}
+.rec-img img{width:100%;height:100%;object-fit:cover;transition:transform .5s ease;}
+.rec-card:hover .rec-img img{transform:scale(1.05);}
+.rec-body{padding:1rem 1.1rem 1.25rem;}
+.rec-house{font-size:9px;letter-spacing:0.14em;text-transform:uppercase;color:var(--or);}
+.rec-name{font-family:var(--serif);font-size:17px;color:var(--texte);margin:4px 0 8px;}
+.rec-why{font-size:11px;font-weight:300;color:var(--texte-soft);line-height:1.5;}
 
 /* object detail */
 .detail{display:grid;grid-template-columns:40% 60%;gap:0;align-items:stretch;}
-.detail-visual{background:var(--noir-2);display:flex;flex-direction:column;align-items:center;justify-content:center;padding:3rem;gap:1.5rem;min-height:480px;}
+.detail-visual{background:var(--noir-2);display:flex;flex-direction:column;align-items:center;justify-content:center;padding:2rem;gap:1.5rem;min-height:480px;}
+.detail-img{width:100%;max-width:320px;aspect-ratio:1;object-fit:cover;border:.5px solid var(--noir-3);}
 .detail-visual .mono{font-family:var(--serif);font-size:80px;color:var(--or);opacity:.3;}
 .detail-right{padding:3rem;}
 .crumb{font-size:10px;color:var(--texte-ghost);margin-bottom:1.5rem;}
@@ -170,6 +184,14 @@ body{font-family:var(--sans);background:var(--noir);color:var(--texte);font-size
 .artisan{display:none;background:var(--noir-2);border:.5px solid var(--noir-3);padding:1.75rem;margin-top:1.5rem;align-items:center;gap:1.5rem;}
 .artisan.show{display:flex;animation:fadeUp .4s ease;}
 .artisan .av{width:64px;height:64px;border-radius:50%;border:.5px solid var(--or);display:flex;align-items:center;justify-content:center;font-family:var(--serif);font-size:22px;color:var(--or);flex-shrink:0;}
+.proto{display:none;grid-template-columns:1fr 1fr;gap:0;margin-top:1.5rem;border:.5px solid var(--noir-3);}
+.proto.show{display:grid;animation:fadeUp .5s ease;}
+.proto-visual{background:var(--noir-2);overflow:hidden;min-height:340px;}
+.proto-visual img{width:100%;height:100%;object-fit:cover;}
+.proto-info{padding:2rem;background:var(--noir-2);}
+.proto-spec{display:flex;justify-content:space-between;font-size:12px;padding:8px 0;border-bottom:.5px solid var(--noir-3);}
+.proto-spec span:first-child{color:var(--texte-ghost);}
+.proto-spec span:last-child{color:var(--ivory);}
 .doc-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem;margin-top:2rem;}
 .doc-card{background:var(--noir-2);border:.5px solid var(--noir-3);padding:1.75rem;}
 .doc-card svg{width:28px;height:28px;stroke:var(--or);fill:none;stroke-width:1;margin-bottom:1rem;}
@@ -214,7 +236,8 @@ body{font-family:var(--sans);background:var(--noir);color:var(--texte);font-size
   .screen{padding:90px 1.5rem 60px;}
   .w-logo{font-size:54px;}
   .h-display{font-size:38px;}
-  .arch-grid,.detail,.inh-grid,.doc-grid,.edi-grid,.livre{grid-template-columns:1fr;}
+  .arch-grid,.detail,.inh-grid,.doc-grid,.edi-grid,.livre,.proto{grid-template-columns:1fr;}
+  .rec-grid{grid-template-columns:1fr 1fr;}
   .big-num{font-size:160px;right:-10px;}
   .detail-visual{min-height:280px;}
 }
@@ -258,13 +281,19 @@ body{font-family:var(--sans);background:var(--noir);color:var(--texte);font-size
     <h1 class="h-display">Your collection.<br>Your stories.</h1>
     <p class="intro">Each piece in your archive holds more than its price. Here, every object carries the memory of the moment it entered your life.</p>
     <div class="arch-grid" id="archGrid"></div>
+
+    <div class="divider" style="margin-top:4rem;"></div>
+    <div class="label">Curated for you · MÉMOIRE AI</div>
+    <h2 class="serif" style="font-size:30px;font-weight:300;color:var(--texte);margin:.5rem 0 .25rem;">Pieces that match your story.</h2>
+    <p style="font-size:13px;font-weight:300;color:var(--texte-soft);max-width:480px;">Read from the emotional patterns in your archive — not from what others bought.</p>
+    <div class="rec-grid" id="recGrid"></div>
   </div>
 
   <!-- detail (hidden, swaps in) -->
   <div class="wrap on-noir" id="archDetail" style="display:none;background:var(--noir);margin-top:-40px;">
     <div class="detail" style="margin-top:1rem;">
       <div class="detail-visual">
-        <div class="mono serif" id="dVisual">LV</div>
+        <img id="dVisual" class="detail-img" src="images/neverfull.jpg" alt="" />
         <div style="display:flex;flex-direction:column;gap:.5rem;align-items:center;">
           <span class="badge" id="dCraft">Crafted · Asnières-sur-Seine, France</span>
           <span class="badge">Atelier 7 · Maître-maroquinier</span>
@@ -392,7 +421,23 @@ body{font-family:var(--sans);background:var(--noir);color:var(--texte);font-size
         <div class="serif" style="font-size:22px;color:var(--ivory);">Jean-Marc Delacroix</div>
         <div style="font-size:11px;color:var(--texte-ghost);">Maître-maroquinier · Asnières, France · 34 years</div>
         <div style="font-size:12px;color:var(--texte-soft);font-weight:300;margin-top:.5rem;">Speciality: structured forms, heritage hardware, bespoke finishing</div>
-        <button class="btn btn-secondary" style="margin-top:1rem;" disabled title="Available for MÉMOIRE members">Meet your artisan →</button>
+        <button class="btn btn-secondary" style="margin-top:1rem;" onclick="ccShowProto()">Generate prototype →</button>
+      </div>
+    </div>
+
+    <!-- PROTOTYPE -->
+    <div class="proto" id="ccProto">
+      <div class="proto-visual"><img src="images/cocreation.jpg" alt="Co-created prototype" /></div>
+      <div class="proto-info">
+        <span class="badge">MÉMOIRE AI · Generated prototype</span>
+        <div class="serif" style="font-size:26px;color:var(--ivory);margin:.75rem 0;">Le Premier · by Valentina &amp; Jean-Marc</div>
+        <div style="font-size:12px;color:var(--texte-ghost);margin-bottom:1rem;">A first render, composed from your emotional archive. Refined with your artisan over three ateliers.</div>
+        <div class="proto-spec"><span>Silhouette</span><span>Structured · top-handle</span></div>
+        <div class="proto-spec"><span>Palette</span><span>Warm taupe · natural cowhide</span></div>
+        <div class="proto-spec"><span>Hardware</span><span>Heritage brushed gold</span></div>
+        <div class="proto-spec"><span>Signature</span><span>Hand-stamped "V.F. · 2026"</span></div>
+        <div class="proto-spec"><span>Provenance</span><span>Asnières · LIFE 360 ✓</span></div>
+        <div style="font-size:10px;color:var(--texte-ghost);opacity:.5;margin-top:1rem;font-style:italic;">Visual is a representative render. The final piece is co-developed with your Maître-artisan.</div>
       </div>
     </div>
 
@@ -479,12 +524,19 @@ body{font-family:var(--sans);background:var(--noir);color:var(--texte);font-size
 <script>
 // ── DATA ──
 const PIECES=[
- {house:"LOUIS VUITTON",name:"Neverfull MM · Monogram",date:"March 2019",city:"Paris, France",mono:"LV",mem:"The year I moved to Madrid.",
+ {house:"LOUIS VUITTON",name:"Neverfull MM · Monogram",date:"March 2019",city:"Paris, France",img:"images/neverfull.jpg",mem:"The year I moved to Madrid.",
   narr:"Madrid, March 2019. A new chapter — a new city, a new life. This piece was chosen not for what it was, but for what it meant: the beginning of something I couldn't yet name.",status:"done"},
- {house:"LOUIS VUITTON",name:"Speedy Bandoulière 25",date:"June 2021",city:"Madrid, Spain",mono:"LV",mem:"My first promotion. I chose permanence over celebration.",
+ {house:"LOUIS VUITTON",name:"Speedy Bandoulière 25",date:"June 2021",city:"Madrid, Spain",img:"images/speedy.jpg",mem:"My first promotion. I chose permanence over celebration.",
   narr:"June 2021. A milestone reached quietly. Instead of a celebration that fades, I chose an object that endures — a daily reminder that the work was real.",status:"done"},
- {house:"LOUIS VUITTON",name:"Twist MM",date:"2023",city:"Madrid, Spain",mono:"LV",mem:"",narr:"",status:"pending"},
- {house:"LOUIS VUITTON",name:"Capucines BB",date:"2025",city:"Madrid, Spain",mono:"LV",mem:"",narr:"",status:"pending"}
+ {house:"LOUIS VUITTON",name:"Twist MM",date:"2023",city:"Madrid, Spain",img:"images/twist.jpg",mem:"",narr:"",status:"pending"},
+ {house:"LOUIS VUITTON",name:"Capucines BB",date:"2025",city:"Madrid, Spain",img:"images/capucines.jpg",mem:"",narr:"",status:"pending"}
+];
+// MÉMOIRE AI — curated for your profile (based on archive emotional patterns)
+const RECS=[
+ {house:"LOUIS VUITTON",name:"Tambour Watch",img:"images/watch.jpg",why:"Permanence over trend — matches your archive's preference for enduring objects."},
+ {house:"LOUIS VUITTON",name:"Idylle Fine Jewelry",img:"images/jewelry.jpg",why:"Heritage detail — your memories anchor on craft and artisanal hardware."},
+ {house:"LOUIS VUITTON",name:"Spell On You Parfum",img:"images/perfume.jpg",why:"New-beginnings ritual — echoes the emotional tone of your Madrid chapter."},
+ {house:"LOUIS VUITTON",name:"Monogram Silk Scarf",img:"images/scarf.jpg",why:"Warm neutrals — 3 of your 4 pieces share the same earth-tone palette."}
 ];
 const MARKETS={
  "España":{flag:"España",signal:"Discreción y permanencia",
@@ -525,7 +577,7 @@ function renderArchive(){
   const g=document.getElementById('archGrid');
   g.innerHTML=PIECES.map((p,i)=>`
     <div class="obj-card" onclick="${p.status==='done'?`openDetail(${i})`:`openModal()`}">
-      <div class="obj-visual"><span class="mono serif">${p.mono}</span>
+      <div class="obj-visual"><img src="${p.img}" alt="${p.name}" loading="lazy" />
         <span class="obj-badge ${p.status==='done'?'done':'pending'}">${p.status==='done'?'Memory ✓':'Add memory'}</span></div>
       <div class="obj-body">
         <div class="obj-house">${p.house}</div>
@@ -539,7 +591,7 @@ function renderArchive(){
 }
 function openDetail(i){
   const p=PIECES[i];
-  document.getElementById('dVisual').textContent=p.mono;
+  document.getElementById('dVisual').src=p.img;
   document.getElementById('dCrumb').textContent=p.name.split(' · ')[0];
   document.getElementById('dHouse').textContent=p.house;
   document.getElementById('dName').textContent=p.name;
@@ -556,6 +608,17 @@ function closeDetail(){
   document.getElementById('archDetail').style.display='none';
   document.getElementById('screen-archive').classList.add('on-ivory');
   document.getElementById('screen-archive').classList.remove('on-noir');
+}
+function renderRecs(){
+  document.getElementById('recGrid').innerHTML=RECS.map(r=>`
+    <div class="rec-card">
+      <div class="rec-img"><img src="${r.img}" alt="${r.name}" loading="lazy" /></div>
+      <div class="rec-body">
+        <div class="rec-house">${r.house}</div>
+        <div class="rec-name serif">${r.name}</div>
+        <div class="rec-why">${r.why}</div>
+      </div>
+    </div>`).join('');
 }
 function openModal(){document.getElementById('modal').classList.add('show');}
 function closeModal(){document.getElementById('modal').classList.remove('show');}
@@ -584,6 +647,11 @@ function ccShowArtisan(){
   document.getElementById('ccStep3').classList.remove('active');document.getElementById('ccStep3').classList.add('done');
   document.getElementById('ccStep4').classList.add('active');
   document.getElementById('ccArtisan').classList.add('show');
+}
+function ccShowProto(){
+  document.getElementById('ccStep4').classList.remove('active');document.getElementById('ccStep4').classList.add('done');
+  document.getElementById('ccProto').classList.add('show');
+  document.getElementById('ccProto').scrollIntoView({behavior:'smooth',block:'center'});
 }
 
 // ── INTELLIGENCE ──
@@ -619,7 +687,7 @@ document.addEventListener('keydown',e=>{
 });
 
 // init
-renderArchive();renderPieces();renderMarkets();
+renderArchive();renderRecs();renderPieces();renderMarkets();
 </script>
 </body>
 </html>
