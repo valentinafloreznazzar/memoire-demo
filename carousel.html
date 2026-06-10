@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>MÉMOIRE — Carousel</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&display=swap" rel="stylesheet" />
+<style>
+:root{--noir:#0A0908;--noir-2:#1A1916;--noir-3:#2A2824;--ivory:#F2EFE7;--ivory-2:#E8E4DA;--ivory-3:#D8D3C6;--or:#C4A96E;--or-2:#D4BA80;--texte:#1A1916;--texte-soft:#5A5650;--texte-ghost:#9A9690;--serif:'Cormorant Garamond',Georgia,serif;--sans:'DM Sans',system-ui,sans-serif;}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:var(--sans);background:#000;display:flex;flex-direction:column;align-items:center;min-height:100vh;padding:2rem 1rem;}
+.stage{width:1080px;height:1080px;max-width:92vw;max-height:92vw;position:relative;overflow:hidden;box-shadow:0 8px 60px rgba(0,0,0,.5);}
+.slide{position:absolute;inset:0;display:none;flex-direction:column;justify-content:center;padding:9%;}
+.slide.active{display:flex;animation:fade .4s ease;}
+@keyframes fade{from{opacity:0;}to{opacity:1;}}
+.s-noir{background:var(--noir);color:var(--ivory);}
+.s-ivory{background:var(--ivory);color:var(--texte);}
+.label{font-family:var(--sans);font-size:1.05vw;letter-spacing:0.22em;text-transform:uppercase;color:var(--or);}
+.serif{font-family:var(--serif);font-weight:300;}
+.gl{width:5%;height:1px;background:var(--or);border:none;margin:2.2vw 0;}
+.big{font-family:var(--serif);font-weight:300;line-height:1.02;letter-spacing:-0.01em;}
+@media(min-width:1000px){.label{font-size:11px;}}
+/* slide-specific */
+.cover-logo{font-family:var(--serif);font-weight:300;font-size:7vw;color:var(--or);letter-spacing:0.1em;}
+.cover-sub{font-family:var(--serif);font-style:italic;font-size:2.4vw;color:var(--ivory);opacity:.7;margin-top:1.5vw;}
+.cover-tag{font-size:1.1vw;color:var(--texte-ghost);letter-spacing:0.12em;margin-top:3.5vw;}
+@media(min-width:1000px){.cover-logo{font-size:76px;}.cover-sub{font-size:26px;}.cover-tag{font-size:12px;}}
+.h2{font-size:4.6vw;}
+.h-sub{font-family:var(--serif);font-style:italic;font-size:2.4vw;color:var(--texte-soft);margin-top:1vw;}
+.s-noir .h-sub{color:var(--or-2);}
+.body{font-family:var(--serif);font-size:2vw;font-weight:300;line-height:1.6;color:var(--texte-soft);max-width:78%;margin-top:2vw;}
+.s-noir .body{color:rgba(242,239,231,.7);}
+@media(min-width:1000px){.h2{font-size:50px;}.h-sub{font-size:26px;}.body{font-size:21px;}}
+.bul{font-family:var(--serif);font-style:italic;font-size:2.1vw;color:var(--ivory);opacity:.8;line-height:1.5;padding:1vw 0 1vw 2vw;position:relative;}
+.bul::before{content:'→';position:absolute;left:0;color:var(--or);}
+@media(min-width:1000px){.bul{font-size:22px;}}
+.float{font-family:var(--serif);font-style:italic;font-size:1.7vw;color:var(--or);margin-top:2.5vw;}
+.pnum{font-family:var(--serif);font-size:13vw;font-weight:300;color:var(--or);opacity:.18;line-height:1;}
+.s-ivory .pnum{color:var(--ivory-3);opacity:1;}
+@media(min-width:1000px){.pnum{font-size:140px;}.float{font-size:18px;}}
+.stat{font-family:var(--serif);font-size:9vw;font-weight:300;color:var(--or);line-height:1;}
+@media(min-width:1000px){.stat{font-size:96px;}}
+.pills{display:flex;gap:.7vw;flex-wrap:wrap;margin-top:2vw;}
+.pill{border:.5px solid var(--or);color:var(--or);font-size:1vw;letter-spacing:0.1em;text-transform:uppercase;padding:.6vw 1.4vw;}
+@media(min-width:1000px){.pill{font-size:11px;padding:6px 16px;}}
+.quote{font-family:var(--serif);font-style:italic;font-size:1.9vw;color:var(--ivory);opacity:.6;margin-top:2.5vw;}
+@media(min-width:1000px){.quote{font-size:20px;}}
+.badge{border:.5px solid var(--or);color:var(--or);font-size:1vw;letter-spacing:0.16em;text-transform:uppercase;padding:.6vw 1.5vw;display:inline-block;}
+@media(min-width:1000px){.badge{font-size:11px;padding:6px 16px;}}
+.idx{position:absolute;bottom:6%;right:9%;font-size:1vw;color:var(--texte-ghost);opacity:.4;letter-spacing:0.1em;}
+@media(min-width:1000px){.idx{font-size:11px;}}
+/* nav */
+.nav{display:flex;align-items:center;gap:1.5rem;margin-top:1.5rem;}
+.nav button{background:none;border:.5px solid var(--or);color:var(--or);width:44px;height:44px;cursor:pointer;font-size:18px;transition:all .2s;}
+.nav button:hover{background:var(--or);color:var(--noir);}
+.dots{display:flex;gap:8px;}
+.dot{width:7px;height:7px;border-radius:50%;background:#444;cursor:pointer;transition:background .2s;}
+.dot.on{background:var(--or);}
+.counter{color:#777;font-size:12px;letter-spacing:0.1em;min-width:48px;text-align:center;}
+</style>
+</head>
+<body>
+<div class="stage">
+
+  <!-- 1 COVER -->
+  <div class="slide s-noir active" style="align-items:center;text-align:center;">
+    <hr class="gl" style="margin-bottom:2.5vw;" />
+    <div class="cover-logo">MÉMOIRE</div>
+    <div class="cover-sub">What if luxury remembered why — not just what?</div>
+    <div class="cover-tag">An original concept by Valentina Florez · Inside LVMH 2026</div>
+  </div>
+
+  <!-- 2 INSIGHT -->
+  <div class="slide s-ivory">
+    <div class="label">The insight</div>
+    <h2 class="big h2" style="margin-top:1.5vw;">VICs don't buy products.</h2>
+    <div class="h-sub">They mark moments of life with objects.</div>
+    <p class="body">The bag bought after a divorce. The watch gifted after a promotion. LVMH knows what you bought and when — but rarely why. That emotional layer is the one data point AI has never captured.</p>
+    <div class="float">Top 1% of LVMH clients. Completely unrelated to price.</div>
+    <div class="idx">02 — Insight</div>
+  </div>
+
+  <!-- 3 CONCEPT -->
+  <div class="slide s-noir">
+    <div class="label">The concept</div>
+    <h2 class="big h2" style="color:var(--ivory);margin-top:1.5vw;">MÉMOIRE</h2>
+    <div class="h-sub">An Emotional Heritage Platform</div>
+    <div style="margin-top:2.5vw;">
+      <div class="bul">Every piece has a memory, not just a price.</div>
+      <div class="bul">AI that understands why you bought — not just what.</div>
+      <div class="bul">Designed to be inherited, not replaced.</div>
+    </div>
+    <div class="quote">"Technology everywhere. Visible nowhere."</div>
+    <div class="idx">03 — Concept</div>
+  </div>
+
+  <!-- 4 PILLAR 1 -->
+  <div class="slide s-ivory">
+    <div class="pnum serif">01</div>
+    <h2 class="big h2" style="margin-top:-1vw;">The Emotional Layer</h2>
+    <p class="body">AI captures the emotional context of each acquisition — turning a timeline of transactions into a timeline of a life, with objects as its markers.</p>
+    <div class="pills"><span class="pill" style="border-color:var(--ivory-3);color:var(--texte-soft);">PRIME: Involving</span><span class="pill" style="border-color:var(--ivory-3);color:var(--texte-soft);">Memorable</span><span class="pill" style="border-color:var(--ivory-3);color:var(--texte-soft);">Elevating</span></div>
+    <div class="idx">04 — Pillar 01</div>
+  </div>
+
+  <!-- 5 PILLAR 2 -->
+  <div class="slide s-noir">
+    <div class="pnum serif">02</div>
+    <h2 class="big h2" style="color:var(--ivory);margin-top:-1vw;">The Living Archive</h2>
+    <p class="body">Every piece a client owns becomes a digital object — provenance, craft journey, and the client's private memory, preserved together.</p>
+    <div class="float" style="color:var(--or-2);">Blockchain provenance meets emotional narrative.</div>
+    <div class="pills"><span class="pill">LIFE 360 Traceability</span><span class="pill">ASCEND Framework</span></div>
+    <div class="idx">05 — Pillar 02</div>
+  </div>
+
+  <!-- 6 PILLAR 3 -->
+  <div class="slide s-ivory">
+    <div class="pnum serif">03</div>
+    <h2 class="big h2" style="margin-top:-1vw;">The Inheritance Protocol</h2>
+    <p class="body" style="margin-top:1.5vw;">The moment an object passes between generations — never before turned into a brand experience.</p>
+    <div style="margin-top:2vw;">
+      <div class="stat serif">3,500+</div>
+      <div style="font-size:1.3vw;color:var(--texte-soft);margin-top:.5vw;">new HNWI buyers projected by 2035 — the largest wealth transfer in history is underway.</div>
+    </div>
+    <div class="idx">06 — Pillar 03</div>
+  </div>
+
+  <!-- 7 THESIS -->
+  <div class="slide s-noir" style="align-items:center;text-align:center;justify-content:center;">
+    <h2 class="big h2" style="color:var(--ivory);font-size:4.4vw;">The next frontier of luxury<br>isn't a product.</h2>
+    <div class="h-sub" style="margin-top:2vw;">It's a relationship that outlives both the client and the object.</div>
+    <div class="pills" style="justify-content:center;margin-top:3vw;"><span class="pill">Emotional AI</span><span class="pill">Generational Heritage</span><span class="pill">Co-Creation</span></div>
+    <div style="font-size:1vw;color:var(--texte-ghost);margin-top:2.5vw;letter-spacing:0.1em;">Built on: ASCEND · PRIME · LIFE 360 · VIC Philosophy</div>
+    <div class="idx">07 — Thesis</div>
+  </div>
+
+  <!-- 8 CTA -->
+  <div class="slide s-ivory" style="align-items:center;text-align:center;justify-content:center;">
+    <div class="label">A concept by</div>
+    <div class="big serif" style="font-size:5vw;margin:1vw 0;">Valentina Florez</div>
+    <div style="font-size:1.4vw;color:var(--texte-soft);">Marketing &amp; Operations · MBA Candidate · Madrid</div>
+    <hr class="gl" style="margin:2.5vw auto;" />
+    <div class="h-sub" style="font-size:2.1vw;max-width:80%;">Is MÉMOIRE the future of VIC relationships?<br>Or is luxury always about the present?</div>
+    <div style="margin-top:2.5vw;"><span class="badge">Inside LVMH Certificate · June 2026</span></div>
+    <div style="font-size:1.2vw;color:var(--texte-ghost);margin-top:1.5vw;">IE Business School · Available June 2026 · valentina-portfolio-a5lx.vercel.app</div>
+    <div style="font-size:.8vw;color:var(--texte-ghost);opacity:.35;margin-top:2vw;letter-spacing:0.08em;">Credential ID: f56946ce-8de2-46ae-affd-51390cc2af50</div>
+  </div>
+
+</div>
+
+<div class="nav">
+  <button onclick="move(-1)">‹</button>
+  <div class="counter"><span id="cur">1</span> / 8</div>
+  <button onclick="move(1)">›</button>
+  <div class="dots" id="dots"></div>
+</div>
+
+<script>
+const slides=document.querySelectorAll('.slide');let i=0;
+const dots=document.getElementById('dots');
+slides.forEach((_,n)=>{const d=document.createElement('div');d.className='dot'+(n===0?' on':'');d.onclick=()=>goTo(n);dots.appendChild(d);});
+function render(){slides.forEach((s,n)=>s.classList.toggle('active',n===i));document.querySelectorAll('.dot').forEach((d,n)=>d.classList.toggle('on',n===i));document.getElementById('cur').textContent=i+1;}
+function move(d){i=(i+d+slides.length)%slides.length;render();}
+function goTo(n){i=n;render();}
+document.addEventListener('keydown',e=>{if(e.key==='ArrowRight')move(1);if(e.key==='ArrowLeft')move(-1);});
+</script>
+</body>
+</html>
