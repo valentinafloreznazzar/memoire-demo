@@ -1,0 +1,625 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>MÉMOIRE — An Emotional Heritage Platform</title>
+<meta name="description" content="MÉMOIRE — a concept for LVMH by Valentina Florez. What if luxury remembered why, not just what?" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&display=swap" rel="stylesheet" />
+<style>
+:root{
+  --noir:#0A0908; --noir-2:#1A1916; --noir-3:#2A2824;
+  --ivory:#F2EFE7; --ivory-2:#E8E4DA; --ivory-3:#D8D3C6;
+  --or:#C4A96E; --or-2:#D4BA80; --or-3:#8A7245;
+  --texte:#1A1916; --texte-soft:#5A5650; --texte-ghost:#9A9690;
+  --vert:#2A6A4A; --rouge:#8A2A1A;
+  --serif:'Cormorant Garamond',Georgia,serif;
+  --sans:'DM Sans',system-ui,sans-serif;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+body{font-family:var(--sans);background:var(--noir);color:var(--texte);font-size:15px;line-height:1.6;-webkit-font-smoothing:antialiased;}
+::-webkit-scrollbar{width:3px;}
+::-webkit-scrollbar-track{background:transparent;}
+::-webkit-scrollbar-thumb{background:rgba(196,169,110,0.3);}
+
+.label{font-family:var(--sans);font-size:10px;letter-spacing:0.2em;text-transform:uppercase;color:var(--or);}
+.sec-num{font-family:var(--sans);font-size:10px;letter-spacing:0.2em;text-transform:uppercase;color:var(--or);margin-bottom:1.5rem;}
+.serif{font-family:var(--serif);}
+.gold-line{height:1px;background:var(--or);border:none;}
+
+/* buttons */
+.btn{display:inline-flex;align-items:center;gap:8px;font-family:var(--sans);font-size:11px;font-weight:500;letter-spacing:0.14em;text-transform:uppercase;padding:12px 28px;cursor:pointer;border:none;transition:all .2s ease;text-decoration:none;}
+.btn-primary{background:var(--noir);color:var(--ivory);}
+.btn-primary:hover{background:var(--noir-3);}
+.on-ivory .btn-primary{background:var(--noir);color:var(--ivory);}
+.btn-secondary{background:transparent;border:.5px solid var(--or);color:var(--or);padding:11.5px 27.5px;}
+.btn-secondary:hover{background:rgba(196,169,110,0.1);}
+.btn:disabled{opacity:.4;cursor:not-allowed;}
+.tag{display:inline-block;background:transparent;border:.5px solid var(--ivory-3);color:var(--texte-soft);padding:4px 12px;font-size:10px;letter-spacing:0.12em;text-transform:uppercase;}
+.on-noir .tag{border-color:var(--noir-3);color:var(--texte-ghost);}
+.badge{display:inline-block;background:var(--noir-2);border:.5px solid var(--or);color:var(--or);font-size:9px;letter-spacing:0.16em;text-transform:uppercase;padding:5px 12px;}
+
+/* ── WELCOME (screen 0) ── */
+#welcome{position:fixed;inset:0;z-index:1000;background:var(--noir);display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:2rem;opacity:0;animation:fadeIn .8s ease forwards;}
+#welcome.hide{opacity:0;pointer-events:none;transition:opacity .6s ease;}
+.w-line{width:48px;height:1px;background:var(--or);margin-bottom:32px;opacity:0;animation:fadeIn .6s ease .1s forwards;}
+.w-logo{font-family:var(--serif);font-size:72px;font-weight:300;color:var(--or);letter-spacing:0.12em;line-height:1;opacity:0;animation:fadeIn .6s ease .1s forwards;}
+.w-sub{font-family:var(--serif);font-size:20px;font-style:italic;color:var(--ivory);opacity:0;margin-top:16px;animation:fadeUp .5s ease .35s forwards;}
+.w-div{width:200px;height:.5px;background:var(--noir-3);margin:48px 0;opacity:0;animation:fadeIn .5s ease .6s forwards;}
+.w-back{opacity:0;animation:fadeUp .5s ease .6s forwards;}
+.w-back .label{color:var(--texte-ghost);}
+.w-name{font-family:var(--serif);font-size:32px;color:var(--ivory);margin-top:8px;}
+.w-vic{font-size:11px;color:var(--or);opacity:.7;margin-top:4px;}
+.w-enter{margin-top:56px;opacity:0;animation:fadeUp .5s ease .8s forwards;}
+.w-credit{margin-top:80px;font-size:10px;color:var(--texte-ghost);opacity:.4;letter-spacing:0.1em;}
+
+/* ── NAV ── */
+#nav{position:fixed;top:0;left:0;right:0;height:56px;z-index:500;display:flex;align-items:center;justify-content:space-between;padding:0 2.5rem;background:rgba(10,9,8,0.97);backdrop-filter:blur(8px);border-bottom:.5px solid var(--noir-3);transform:translateY(-100%);transition:transform .5s ease;}
+#nav.show{transform:translateY(0);}
+.nav-logo{font-family:var(--serif);font-size:18px;color:var(--or);letter-spacing:0.06em;}
+.nav-tabs{display:flex;gap:2rem;list-style:none;}
+.nav-tabs button{background:none;border:none;cursor:pointer;font-family:var(--sans);font-size:10px;letter-spacing:0.16em;text-transform:uppercase;color:var(--texte-ghost);padding:6px 0;border-bottom:1px solid transparent;transition:color .2s;}
+.nav-tabs button:hover{color:var(--ivory);}
+.nav-tabs button.active{color:var(--ivory);border-bottom-color:var(--or);}
+.nav-client{font-size:11px;color:var(--texte-ghost);}
+.nav-burger{display:none;background:none;border:none;color:var(--ivory);font-size:20px;cursor:pointer;}
+
+/* ── SCREENS ── */
+.screen{display:none;min-height:100vh;padding:120px 40px 80px;animation:scrFade .4s ease;}
+.screen.active{display:block;}
+.on-ivory{background:var(--ivory);color:var(--texte);}
+.on-noir{background:var(--noir);color:var(--ivory);}
+.wrap{max-width:1100px;margin:0 auto;position:relative;}
+.wrap-narrow{max-width:800px;margin:0 auto;}
+.h-display{font-family:var(--serif);font-weight:300;font-size:52px;line-height:1.05;letter-spacing:-0.01em;}
+.h-display.light{color:var(--ivory);}
+.h-sub{font-family:var(--serif);font-size:22px;font-style:italic;color:var(--texte-soft);margin-top:8px;}
+.on-noir .h-sub{color:var(--or-2);}
+.intro{font-size:13px;font-weight:300;color:var(--texte-soft);max-width:520px;line-height:1.8;margin-top:1.5rem;}
+.on-noir .intro{color:rgba(242,239,231,0.5);}
+.divider{height:.5px;background:var(--ivory-3);margin:2.5rem 0;}
+.on-noir .divider{background:var(--noir-3);}
+
+/* ── ARCHIVE grid ── */
+.arch-grid{display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;margin-top:3rem;}
+.obj-card{background:var(--ivory);border:.5px solid var(--ivory-3);cursor:pointer;transition:transform .25s ease,border-color .25s ease;}
+.obj-card:hover{transform:translateY(-3px);border-color:var(--or);}
+.obj-visual{height:200px;background:linear-gradient(135deg,var(--ivory-2),var(--ivory-3));display:flex;align-items:center;justify-content:center;position:relative;}
+.obj-visual .mono{font-family:var(--serif);font-size:56px;color:var(--or);opacity:.45;letter-spacing:0.1em;}
+.obj-badge{position:absolute;top:12px;right:12px;font-size:9px;letter-spacing:0.14em;text-transform:uppercase;padding:4px 10px;}
+.obj-badge.done{background:rgba(42,106,74,0.12);color:var(--vert);border:.5px solid rgba(42,106,74,0.4);}
+.obj-badge.pending{background:transparent;color:var(--or);border:.5px solid var(--or);}
+.obj-body{padding:1.5rem 1.75rem;}
+.obj-house{font-size:10px;letter-spacing:0.14em;text-transform:uppercase;color:var(--or);}
+.obj-name{font-family:var(--serif);font-size:20px;color:var(--texte);margin:6px 0;}
+.obj-date{font-size:11px;color:var(--texte-ghost);}
+.obj-mem{font-family:var(--serif);font-size:14px;font-style:italic;color:var(--texte-soft);margin:10px 0;line-height:1.5;}
+.obj-mem.empty{color:var(--texte-ghost);}
+.obj-prov{font-size:9px;letter-spacing:0.1em;text-transform:uppercase;color:var(--or-3);border:.5px solid var(--ivory-3);padding:5px 10px;display:inline-block;margin:8px 0;}
+.obj-link{font-size:11px;color:var(--texte-soft);margin-top:6px;}
+.obj-link:hover{text-decoration:underline;color:var(--or-3);}
+
+/* object detail */
+.detail{display:grid;grid-template-columns:40% 60%;gap:0;align-items:stretch;}
+.detail-visual{background:var(--noir-2);display:flex;flex-direction:column;align-items:center;justify-content:center;padding:3rem;gap:1.5rem;min-height:480px;}
+.detail-visual .mono{font-family:var(--serif);font-size:80px;color:var(--or);opacity:.3;}
+.detail-right{padding:3rem;}
+.crumb{font-size:10px;color:var(--texte-ghost);margin-bottom:1.5rem;}
+.detail-name{font-family:var(--serif);font-size:36px;color:var(--ivory);margin:6px 0;}
+.mem-narr{font-family:var(--serif);font-size:18px;font-style:italic;color:var(--ivory);opacity:.8;line-height:1.8;}
+.prov-row{display:flex;justify-content:space-between;font-size:12px;padding:8px 0;border-bottom:.5px solid var(--noir-3);}
+.prov-row span:first-child{color:var(--texte-ghost);}
+.prov-row span:last-child{color:var(--ivory);}
+
+/* ── MODAL ── */
+#modal{position:fixed;inset:0;z-index:800;background:rgba(10,9,8,0.85);display:none;align-items:center;justify-content:center;padding:2rem;}
+#modal.show{display:flex;}
+.modal-card{background:var(--ivory);padding:48px;max-width:560px;width:100%;}
+.modal-ta{width:100%;min-height:120px;resize:none;border:none;border-bottom:.5px solid var(--ivory-3);font-family:var(--serif);font-size:18px;color:var(--texte);padding:8px 0;margin:1.5rem 0;background:transparent;outline:none;}
+.modal-note{font-size:12px;color:var(--texte-ghost);line-height:1.7;margin-bottom:1.5rem;}
+.modal-btns{display:flex;gap:1rem;justify-content:flex-end;}
+
+/* ── INHERITANCE ── */
+.big-num{font-family:var(--serif);font-size:280px;font-weight:300;color:var(--ivory-3);position:absolute;top:0;right:-20px;line-height:1;z-index:0;pointer-events:none;}
+.stat-block{margin:2.5rem 0;position:relative;z-index:1;}
+.stat-num{font-family:var(--serif);font-size:80px;font-weight:300;color:var(--or);line-height:1;}
+.piece-row{display:flex;gap:1rem;margin:1.5rem 0;flex-wrap:wrap;}
+.piece-pick{flex:1;min-width:160px;border:.5px solid var(--ivory-3);padding:1rem;cursor:pointer;transition:all .2s;background:var(--ivory);}
+.piece-pick.active{border:1px solid var(--or);background:var(--ivory-2);}
+.piece-pick .n{font-family:var(--serif);font-size:16px;color:var(--texte);}
+.piece-pick .y{font-size:11px;color:var(--texte-ghost);}
+.inh-grid{display:grid;grid-template-columns:1fr 1fr;gap:2.5rem;margin-top:2rem;}
+.mem-input{width:100%;border:none;border-bottom:.5px solid var(--texte-ghost);font-family:var(--serif);font-size:18px;color:var(--texte);padding:8px 0;margin-bottom:1.5rem;background:transparent;outline:none;}
+.toggle-row{display:flex;align-items:center;gap:12px;padding:10px 0;}
+.toggle{width:40px;height:20px;border-radius:10px;position:relative;cursor:pointer;transition:background .2s;flex-shrink:0;}
+.toggle.on{background:var(--or);}
+.toggle.off{background:var(--ivory-3);}
+.toggle::after{content:'';position:absolute;top:2px;width:16px;height:16px;border-radius:50%;background:var(--ivory);transition:left .2s;left:2px;}
+.toggle.on::after{left:22px;}
+.toggle-row span{font-size:13px;color:var(--texte-soft);}
+.preview-box{background:var(--noir-2);padding:1.5rem;margin-top:1.5rem;}
+.preview-box p{font-family:var(--serif);font-size:16px;font-style:italic;color:var(--ivory);opacity:.7;line-height:1.6;}
+.livre{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--ivory-3);border:.5px solid var(--ivory-3);margin-top:2.5rem;box-shadow:0 2px 24px rgba(0,0,0,0.06);}
+.livre-pg{background:var(--ivory-2);padding:2.5rem;min-height:240px;}
+.livre-pg .mono{font-family:var(--serif);font-size:64px;color:var(--or);opacity:.3;text-align:center;}
+
+/* ── CO-CREATION ── */
+.steps{display:flex;gap:2rem;margin:2rem 0;flex-wrap:wrap;}
+.step{display:flex;align-items:center;gap:8px;font-size:12px;}
+.step .dot{width:8px;height:8px;border-radius:50%;background:var(--noir-3);}
+.step.done .dot{background:var(--or);}
+.step.active .dot{background:var(--or);box-shadow:0 0 0 4px rgba(196,169,110,0.2);}
+.step.done span,.step.active span{color:var(--ivory);}
+.step span{color:var(--texte-ghost);}
+.pick-pills,.cat-grid{margin:1rem 0;}
+.pick-pills{display:flex;gap:.75rem;flex-wrap:wrap;}
+.pill{background:transparent;border:.5px solid var(--noir-3);color:var(--texte-ghost);padding:8px 18px;font-size:11px;letter-spacing:0.08em;cursor:pointer;transition:all .15s;}
+.pill.active{border-color:var(--or);color:var(--or);background:rgba(196,169,110,0.1);}
+.cat-grid{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--noir-3);border:.5px solid var(--noir-3);max-width:520px;}
+.cat{background:var(--noir);padding:1.25rem;cursor:pointer;transition:background .2s;font-size:14px;color:var(--ivory);}
+.cat:hover{background:var(--noir-2);}
+.cat.active{background:var(--noir-2);color:var(--or);}
+.cat small{display:block;font-size:11px;color:var(--texte-ghost);margin-top:2px;}
+.ai-box{background:var(--noir-2);border:.5px solid rgba(196,169,110,0.3);padding:1.75rem;margin-top:1.5rem;display:none;}
+.ai-box.show{display:block;animation:fadeUp .4s ease;}
+.ai-sug{font-family:var(--serif);font-size:16px;font-style:italic;color:var(--ivory);opacity:.75;line-height:1.7;padding:6px 0 6px 18px;position:relative;}
+.ai-sug::before{content:'→';position:absolute;left:0;color:var(--or);}
+.artisan{display:none;background:var(--noir-2);border:.5px solid var(--noir-3);padding:1.75rem;margin-top:1.5rem;align-items:center;gap:1.5rem;}
+.artisan.show{display:flex;animation:fadeUp .4s ease;}
+.artisan .av{width:64px;height:64px;border-radius:50%;border:.5px solid var(--or);display:flex;align-items:center;justify-content:center;font-family:var(--serif);font-size:22px;color:var(--or);flex-shrink:0;}
+.doc-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem;margin-top:2rem;}
+.doc-card{background:var(--noir-2);border:.5px solid var(--noir-3);padding:1.75rem;}
+.doc-card svg{width:28px;height:28px;stroke:var(--or);fill:none;stroke-width:1;margin-bottom:1rem;}
+.doc-card .t{font-family:var(--serif);font-size:20px;color:var(--ivory);margin-bottom:.5rem;}
+.doc-card .d{font-size:12px;font-weight:300;color:var(--texte-ghost);line-height:1.6;}
+
+/* ── INTELLIGENCE ── */
+.mkt-pills{display:flex;gap:.75rem;flex-wrap:wrap;margin:1.5rem 0;}
+.mkt-card{background:var(--ivory-2);border:.5px solid var(--ivory-3);padding:2rem;margin-top:1.5rem;}
+.mkt-card .flag{font-size:11px;letter-spacing:0.16em;text-transform:uppercase;color:var(--or);}
+.mkt-signal{font-family:var(--serif);font-size:28px;font-style:italic;color:var(--texte);margin:.75rem 0;}
+.mkt-desc{font-family:var(--serif);font-size:16px;color:var(--texte-soft);line-height:1.7;}
+.mkt-style{margin-top:1rem;display:flex;gap:.5rem;flex-wrap:wrap;}
+.edi-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem;margin-top:2rem;}
+.edi-card{background:var(--ivory-2);border:.5px solid var(--ivory-3);padding:1.5rem;}
+.edi-card .t{font-family:var(--serif);font-size:18px;color:var(--texte);margin-bottom:.5rem;}
+.edi-card .d{font-size:12px;font-weight:300;color:var(--texte-soft);line-height:1.6;}
+
+/* ── ABOUT ── */
+.manifesto{font-family:var(--serif);font-size:20px;font-weight:300;color:var(--ivory);opacity:.75;line-height:1.8;max-width:640px;}
+.manifesto p{margin-bottom:1.25rem;}
+.pillar-list{margin:1rem 0;}
+.pillar-row{display:grid;grid-template-columns:48px 1fr;gap:1rem;align-items:baseline;padding:1rem 0;border-bottom:.5px solid var(--noir-3);}
+.pillar-row .pn{font-family:var(--serif);font-size:32px;color:var(--or);opacity:.4;}
+.pillar-row .pname{font-family:var(--serif);font-size:24px;color:var(--ivory);}
+.pillar-row .pd{font-size:12px;color:var(--texte-ghost);margin-top:2px;}
+.credits{text-align:center;margin-top:3rem;}
+.credits .cn{font-family:var(--serif);font-size:36px;font-weight:300;color:var(--ivory);margin:6px 0;}
+
+/* animations */
+@keyframes fadeIn{to{opacity:1;}}
+@keyframes fadeUp{from{opacity:0;transform:translateY(12px);}to{opacity:1;transform:translateY(0);}}
+@keyframes scrFade{from{opacity:0;}to{opacity:1;}}
+
+/* responsive */
+@media(max-width:820px){
+  #nav{padding:0 1.25rem;}
+  .nav-tabs{display:none;}
+  .nav-tabs.open{display:flex;position:fixed;top:56px;right:0;flex-direction:column;background:var(--noir-2);padding:1.5rem;gap:1.25rem;border-left:.5px solid var(--noir-3);min-width:200px;}
+  .nav-burger{display:block;}
+  .nav-client{display:none;}
+  .screen{padding:90px 1.5rem 60px;}
+  .w-logo{font-size:54px;}
+  .h-display{font-size:38px;}
+  .arch-grid,.detail,.inh-grid,.doc-grid,.edi-grid,.livre{grid-template-columns:1fr;}
+  .big-num{font-size:160px;right:-10px;}
+  .detail-visual{min-height:280px;}
+}
+</style>
+</head>
+<body>
+
+<!-- WELCOME -->
+<div id="welcome">
+  <div class="w-line"></div>
+  <div class="w-logo serif">MÉMOIRE</div>
+  <div class="w-sub">Your private archive. Your legacy.</div>
+  <div class="w-div"></div>
+  <div class="w-back">
+    <div class="label">Welcome back,</div>
+    <div class="w-name">Valentina Florez</div>
+    <div class="w-vic">Louis Vuitton · Private Client</div>
+  </div>
+  <button class="btn btn-secondary w-enter" onclick="enterArchive()">Enter your archive →</button>
+  <div class="w-credit">A concept by Valentina Florez · Inside LVMH Certificate 2026</div>
+</div>
+
+<!-- NAV -->
+<nav id="nav">
+  <div class="nav-logo serif">MÉMOIRE</div>
+  <ul class="nav-tabs" id="navTabs">
+    <li><button data-screen="archive" class="active" onclick="go('archive',this)">Archive</button></li>
+    <li><button data-screen="inheritance" onclick="go('inheritance',this)">Inheritance</button></li>
+    <li><button data-screen="cocreation" onclick="go('cocreation',this)">Co-Creation</button></li>
+    <li><button data-screen="intelligence" onclick="go('intelligence',this)">Intelligence</button></li>
+    <li><button data-screen="about" onclick="go('about',this)">About</button></li>
+  </ul>
+  <div class="nav-client">V. Florez · Louis Vuitton VIC</div>
+  <button class="nav-burger" onclick="document.getElementById('navTabs').classList.toggle('open')">≡</button>
+</nav>
+
+<!-- 1 · ARCHIVE (Pillar 02) -->
+<section class="screen on-ivory" id="screen-archive">
+  <div class="wrap" id="archMain">
+    <div class="sec-num">02 — The Living Archive</div>
+    <h1 class="h-display">Your collection.<br>Your stories.</h1>
+    <p class="intro">Each piece in your archive holds more than its price. Here, every object carries the memory of the moment it entered your life.</p>
+    <div class="arch-grid" id="archGrid"></div>
+  </div>
+
+  <!-- detail (hidden, swaps in) -->
+  <div class="wrap on-noir" id="archDetail" style="display:none;background:var(--noir);margin-top:-40px;">
+    <div class="detail" style="margin-top:1rem;">
+      <div class="detail-visual">
+        <div class="mono serif" id="dVisual">LV</div>
+        <div style="display:flex;flex-direction:column;gap:.5rem;align-items:center;">
+          <span class="badge" id="dCraft">Crafted · Asnières-sur-Seine, France</span>
+          <span class="badge">Atelier 7 · Maître-maroquinier</span>
+          <span class="badge">LIFE 360 Verified ✓</span>
+        </div>
+      </div>
+      <div class="detail-right">
+        <div class="crumb">Archive → <span id="dCrumb">Neverfull MM</span></div>
+        <div class="obj-house" id="dHouse">LOUIS VUITTON</div>
+        <div class="detail-name serif" id="dName">Neverfull MM · Monogram Canvas</div>
+        <div class="obj-date" id="dAcq">Acquired: March 2019 · Paris, France</div>
+        <div class="divider"></div>
+        <div class="label" style="opacity:.7;">Your memory</div>
+        <p class="mem-narr serif" id="dNarr" style="margin-top:1rem;"></p>
+        <div style="font-size:10px;color:var(--texte-ghost);opacity:.4;margin-top:8px;">Narrated by MÉMOIRE AI · Private</div>
+        <div class="divider"></div>
+        <div class="label" style="opacity:.7;">Journey of this piece</div>
+        <div style="margin-top:1rem;">
+          <div class="prov-row"><span>Crafted in</span><span>Asnières-sur-Seine, France</span></div>
+          <div class="prov-row"><span>Material</span><span>Monogram canvas · Natural cowhide</span></div>
+          <div class="prov-row"><span>Artisan</span><span>Atelier 7, since 1987</span></div>
+          <div class="prov-row"><span>Blockchain ID</span><span>0x7f3a…c8e2</span></div>
+        </div>
+        <div style="margin-top:2rem;display:flex;flex-direction:column;gap:.75rem;align-items:flex-start;">
+          <button class="btn btn-secondary" onclick="go('inheritance')">Begin inheritance protocol →</button>
+          <button class="btn" style="background:none;color:var(--texte-ghost);padding:0;" onclick="closeDetail()">← Back to archive</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 2 · INHERITANCE (Pillar 03) -->
+<section class="screen on-ivory" id="screen-inheritance">
+  <div class="wrap-narrow" style="position:relative;">
+    <div class="big-num serif">03</div>
+    <div class="sec-num">03 — The Inheritance Protocol</div>
+    <h1 class="h-display">Pass on more<br>than an object.</h1>
+    <div class="h-sub">Pass on the story.</div>
+    <div class="stat-block">
+      <div class="stat-num serif">3,500+</div>
+      <div style="font-size:13px;color:var(--texte-soft);margin-top:4px;">new HNWI buyers projected by 2035</div>
+      <div style="font-size:12px;color:var(--texte-ghost);font-style:italic;margin-top:4px;">The largest generational wealth transfer in history is underway.</div>
+    </div>
+    <div class="divider"></div>
+    <div class="label">Select a piece to pass on</div>
+    <div class="piece-row" id="piecePick"></div>
+
+    <div class="inh-grid">
+      <div>
+        <div class="label" style="margin-bottom:1rem;">Your heir</div>
+        <input class="mem-input" value="Sofia Florez" />
+        <input class="mem-input" value="Daughter" />
+        <input class="mem-input" placeholder="What do you want them to know?" />
+      </div>
+      <div>
+        <div class="label" style="margin-bottom:1rem;">What they receive</div>
+        <div class="toggle-row"><div class="toggle on" onclick="this.classList.toggle('on');this.classList.toggle('off')"></div><span>Livre de Mémoire (handcrafted book)</span></div>
+        <div class="toggle-row"><div class="toggle on" onclick="this.classList.toggle('on');this.classList.toggle('off')"></div><span>Full emotional archive access</span></div>
+        <div class="toggle-row"><div class="toggle on" onclick="this.classList.toggle('on');this.classList.toggle('off')"></div><span>Maison acknowledgement ceremony</span></div>
+        <div class="toggle-row"><div class="toggle off" onclick="this.classList.toggle('on');this.classList.toggle('off')"></div><span>Co-Creation Studio inheritance</span></div>
+        <div class="preview-box"><p>Your heir will receive a handcrafted Livre de Mémoire documenting the history of the <span id="inhPiece">Neverfull MM</span> — from its creation in Asnières to the memories you've added. Crafted by the Maison.</p></div>
+      </div>
+    </div>
+
+    <div class="livre">
+      <div class="livre-pg" style="text-align:center;">
+        <div class="mono serif">LV</div>
+        <div class="serif" style="font-size:18px;color:var(--texte);margin-top:1rem;">Neverfull MM · 2019</div>
+      </div>
+      <div class="livre-pg">
+        <p class="serif" style="font-size:16px;font-style:italic;color:var(--texte-soft);line-height:1.8;">"Madrid, March 2019. A new chapter — a new city, a new life. This piece was chosen not for what it was, but for what it meant."</p>
+      </div>
+    </div>
+    <div style="text-align:center;font-size:10px;color:var(--texte-ghost);margin-top:.75rem;">Printed on 300gsm cotton paper · Bound by hand</div>
+
+    <div style="margin-top:2.5rem;display:flex;flex-direction:column;gap:.5rem;align-items:flex-start;">
+      <button class="btn btn-primary" disabled title="Available for MÉMOIRE members">Initiate transfer →</button>
+      <div style="font-size:11px;color:var(--texte-ghost);font-style:italic;">The Maison will contact you within 48 hours to coordinate the ceremony.</div>
+    </div>
+  </div>
+</section>
+
+<!-- 3 · CO-CREATION (Pillar 04) -->
+<section class="screen on-noir" id="screen-cocreation">
+  <div class="wrap">
+    <div class="sec-num">04 — The Co-Creation Studio</div>
+    <h1 class="h-display light">You are not<br>just the client.</h1>
+    <div class="h-sub">You are the author.</div>
+    <p class="intro">MÉMOIRE's AI reads your emotional archive and suggests design decisions that reflect your life — not just your taste.</p>
+
+    <div class="label" style="margin-top:2.5rem;opacity:.7;">Configure your next piece</div>
+    <div class="steps" id="ccSteps">
+      <div class="step done"><span class="dot"></span><span>1 · Choose a Maison</span></div>
+      <div class="step active" id="ccStep2"><span class="dot"></span><span>2 · Select category</span></div>
+      <div class="step" id="ccStep3"><span class="dot"></span><span>3 · AI suggestions</span></div>
+      <div class="step" id="ccStep4"><span class="dot"></span><span>4 · Artisan match</span></div>
+    </div>
+
+    <div class="pick-pills">
+      <button class="pill active">Louis Vuitton</button>
+      <button class="pill">Dior</button>
+      <button class="pill">Loewe</button>
+    </div>
+
+    <div class="cat-grid">
+      <div class="cat" onclick="ccSelectCat(this)">Maroquinerie<small>Leather Goods</small></div>
+      <div class="cat" onclick="ccSelectCat(this)">Horlogerie<small>Watches</small></div>
+      <div class="cat" onclick="ccSelectCat(this)">Joaillerie<small>Jewelry</small></div>
+      <div class="cat" onclick="ccSelectCat(this)">Parfum<small>Fragrance</small></div>
+    </div>
+
+    <div class="ai-box" id="ccAI">
+      <span class="badge">MÉMOIRE AI · Based on your archive</span>
+      <div style="font-size:12px;color:var(--texte-ghost);margin:1rem 0 .5rem;">Based on 4 pieces and your memories, MÉMOIRE suggests:</div>
+      <div class="ai-sug">A structured silhouette — your archive shows a preference for permanence over trend.</div>
+      <div class="ai-sug">Warm neutrals — 3 of your 4 pieces share earth tones associated with new beginnings.</div>
+      <div class="ai-sug">Heritage hardware — your memories reference craft and artisanal detail as emotional anchors.</div>
+      <button class="btn btn-secondary" style="margin-top:1.25rem;" onclick="ccShowArtisan()">See your artisan match →</button>
+    </div>
+
+    <div class="artisan" id="ccArtisan">
+      <div class="av serif">JM</div>
+      <div>
+        <div class="serif" style="font-size:22px;color:var(--ivory);">Jean-Marc Delacroix</div>
+        <div style="font-size:11px;color:var(--texte-ghost);">Maître-maroquinier · Asnières, France · 34 years</div>
+        <div style="font-size:12px;color:var(--texte-soft);font-weight:300;margin-top:.5rem;">Speciality: structured forms, heritage hardware, bespoke finishing</div>
+        <button class="btn btn-secondary" style="margin-top:1rem;" disabled title="Available for MÉMOIRE members">Meet your artisan →</button>
+      </div>
+    </div>
+
+    <div class="divider"></div>
+    <div class="label" style="opacity:.6;">Your piece will be documented</div>
+    <div class="doc-grid">
+      <div class="doc-card"><svg viewBox="0 0 24 24"><rect x="3" y="6" width="18" height="13" rx="1"/><circle cx="12" cy="12.5" r="3.5"/><path d="M8 6l1.5-2h5L16 6"/></svg><div class="t">The Making</div><div class="d">A full video of your piece being crafted by your assigned artisan.</div></div>
+      <div class="doc-card"><svg viewBox="0 0 24 24"><path d="M4 4h7v16H4z"/><path d="M13 4h7v16h-7z"/></svg><div class="t">The Story</div><div class="d">AI narrative of the co-creation process added to your archive.</div></div>
+      <div class="doc-card"><svg viewBox="0 0 24 24"><rect x="4" y="4" width="6" height="6"/><rect x="14" y="4" width="6" height="6"/><rect x="4" y="14" width="6" height="6"/><rect x="15" y="15" width="4" height="4"/></svg><div class="t">The Certificate</div><div class="d">Blockchain-certified with LIFE 360 provenance and your co-creator credit.</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- 4 · INTELLIGENCE (Pillar 05) -->
+<section class="screen on-ivory" id="screen-intelligence">
+  <div class="wrap">
+    <div class="sec-num">05 — The Cultural Intelligence Engine</div>
+    <h1 class="h-display">Luxury doesn't<br>translate.</h1>
+    <div class="h-sub">It resonates — or it doesn't.</div>
+    <p class="intro">MÉMOIRE adapts the emotional narrative to the cultural context of each client. Not a translation of the message — a rewriting of the meaning.</p>
+
+    <div class="label" style="margin-top:2.5rem;">Select a market</div>
+    <div class="mkt-pills" id="mktPills"></div>
+    <div class="mkt-card" id="mktCard"></div>
+
+    <div class="divider"></div>
+    <div class="label">Built on equity, diversity & inclusion</div>
+    <div class="edi-grid">
+      <div class="edi-card"><div class="t">Female purchasing power</div><div class="d">Women now drive the majority of luxury purchase decisions globally. MÉMOIRE's emotional layer was designed around their relationship with objects — not transaction data.</div></div>
+      <div class="edi-card"><div class="t">The next generation</div><div class="d">Gen Z represents 25% of luxury purchases today, projected 40% by 2035. MÉMOIRE speaks in cultural fluency, not demographic assumptions.</div></div>
+      <div class="edi-card"><div class="t">New geographies</div><div class="d">Asia ex-Japan grew +7% in Q1 2026. MÉMOIRE's Cultural Intelligence Engine was built for this exact transition.</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- 5 · ABOUT (Pillar 01) -->
+<section class="screen on-noir" id="screen-about">
+  <div class="wrap-narrow">
+    <div class="sec-num">01 — The Emotional Layer</div>
+    <h1 class="h-display light">The data luxury<br>has never captured.</h1>
+    <hr class="gold-line" style="width:40px;margin:2rem 0;" />
+    <div class="manifesto">
+      <p>Every CRM in the luxury industry tracks what you bought. Every loyalty program tracks when you returned. Every AI system tracks what you might buy next.</p>
+      <p>None of them know <em>why</em> you walked into the boutique on a Tuesday afternoon in March 2019.</p>
+      <p>MÉMOIRE was built for that Tuesday.</p>
+    </div>
+    <div class="divider"></div>
+    <div class="label">Five pillars. One conviction.</div>
+    <div class="pillar-list">
+      <div class="pillar-row"><div class="pn serif">01</div><div><div class="pname serif">The Emotional Layer</div><div class="pd">AI that captures why — not just what</div></div></div>
+      <div class="pillar-row"><div class="pn serif">02</div><div><div class="pname serif">The Living Archive</div><div class="pd">Every piece. Its full story. Private.</div></div></div>
+      <div class="pillar-row"><div class="pn serif">03</div><div><div class="pname serif">The Inheritance Protocol</div><div class="pd">The moment no brand has made a brand experience</div></div></div>
+      <div class="pillar-row"><div class="pn serif">04</div><div><div class="pname serif">The Co-Creation Studio</div><div class="pd">You are the author. The artisan is your collaborator.</div></div></div>
+      <div class="pillar-row"><div class="pn serif">05</div><div><div class="pname serif">The Cultural Intelligence Engine</div><div class="pd">Luxury that resonates — not translates</div></div></div>
+    </div>
+    <div class="credits">
+      <div class="label" style="color:var(--texte-ghost);">A concept by</div>
+      <div class="cn serif">Valentina Florez</div>
+      <div style="font-size:12px;color:var(--texte-ghost);">Marketing &amp; Operations · MBA Candidate · Madrid</div>
+      <div style="margin-top:1.5rem;"><span class="badge">Inside LVMH Certificate · June 2026</span></div>
+      <div style="font-size:11px;color:var(--texte-ghost);opacity:.6;margin-top:.5rem;">Creation &amp; Branding · Retail &amp; Client Experience</div>
+      <div style="margin-top:2rem;display:flex;gap:1rem;justify-content:center;">
+        <a class="btn btn-secondary" href="https://www.linkedin.com/in/valentina-florez-marketing/" target="_blank" rel="noopener">→ LinkedIn</a>
+        <a class="btn btn-secondary" href="https://valentina-portfolio-a5lx.vercel.app/" target="_blank" rel="noopener">→ Portfolio</a>
+      </div>
+      <div style="font-size:9px;color:var(--texte-ghost);opacity:.3;margin-top:2rem;">Credential ID: f56946ce-8de2-46ae-affd-51390cc2af50</div>
+    </div>
+  </div>
+</section>
+
+<!-- MODAL: add memory -->
+<div id="modal">
+  <div class="modal-card">
+    <div class="label">What were you living when you chose this piece?</div>
+    <textarea class="modal-ta" placeholder="Write freely. This is private. AI will help you shape it later."></textarea>
+    <div class="modal-note">Your memory is private. AI will craft a narrative from your words in the style of your Maison — visible only to you.</div>
+    <div class="modal-btns">
+      <button class="btn" style="background:none;color:var(--texte-soft);" onclick="closeModal()">Cancel</button>
+      <button class="btn btn-primary" onclick="closeModal()">Save memory →</button>
+    </div>
+  </div>
+</div>
+
+<script>
+// ── DATA ──
+const PIECES=[
+ {house:"LOUIS VUITTON",name:"Neverfull MM · Monogram",date:"March 2019",city:"Paris, France",mono:"LV",mem:"The year I moved to Madrid.",
+  narr:"Madrid, March 2019. A new chapter — a new city, a new life. This piece was chosen not for what it was, but for what it meant: the beginning of something I couldn't yet name.",status:"done"},
+ {house:"LOUIS VUITTON",name:"Speedy Bandoulière 25",date:"June 2021",city:"Madrid, Spain",mono:"LV",mem:"My first promotion. I chose permanence over celebration.",
+  narr:"June 2021. A milestone reached quietly. Instead of a celebration that fades, I chose an object that endures — a daily reminder that the work was real.",status:"done"},
+ {house:"LOUIS VUITTON",name:"Twist MM",date:"2023",city:"Madrid, Spain",mono:"LV",mem:"",narr:"",status:"pending"},
+ {house:"LOUIS VUITTON",name:"Capucines BB",date:"2025",city:"Madrid, Spain",mono:"LV",mem:"",narr:"",status:"pending"}
+];
+const MARKETS={
+ "España":{flag:"España",signal:"Discreción y permanencia",
+   desc:"In Spain, luxury communicates restraint — the visible absence of effort. A piece is chosen not to be seen, but to be recognized by those who understand.",
+   style:["Timeless","Understated","Earned"]},
+ "Colombia":{flag:"Colombia",signal:"Primera generación · Orgullo familiar",
+   desc:"In emerging luxury markets, an LVMH piece often marks a generational threshold — a tangible proof of ascent, chosen with the family in mind as much as oneself.",
+   style:["Heritage","Aspiration","Legacy"]},
+ "Japón":{flag:"Japón",signal:"Permanencia en un mundo volátil",
+   desc:"In Japan, luxury is purchased for its capacity to endure — a counterweight to impermanence. The object is chosen for the feeling of stability it confers, not display.",
+   style:["Permanence","Craft","Silence"]},
+ "China":{flag:"China",signal:"Cultural capital · Intergenerational signaling",
+   desc:"For China's new luxury consumer, a Maison piece represents cultural fluency — knowledge of a global code that signals education, travel, and worldly belonging.",
+   style:["Prestige","Education","Global identity"]},
+ "Arabia Saudí":{flag:"Arabia Saudí",signal:"Private excellence · Inner circle belonging",
+   desc:"Luxury in the Gulf is intensely private — chosen for the quality of what cannot be seen publicly, and shared within circles where the pieces speak for themselves.",
+   style:["Exclusivity","Privacy","Savoir-faire"]}
+};
+
+// ── WELCOME / NAV ──
+function enterArchive(){
+  document.getElementById('welcome').classList.add('hide');
+  setTimeout(()=>{document.getElementById('welcome').style.display='none';},600);
+  document.getElementById('nav').classList.add('show');
+  go('archive');
+}
+function go(name,btn){
+  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
+  document.getElementById('screen-'+name).classList.add('active');
+  document.querySelectorAll('#navTabs button').forEach(b=>b.classList.toggle('active',b.dataset.screen===name));
+  document.getElementById('navTabs').classList.remove('open');
+  if(name==='archive')closeDetail();
+  window.scrollTo({top:0,behavior:'instant'});
+}
+
+// ── ARCHIVE ──
+function renderArchive(){
+  const g=document.getElementById('archGrid');
+  g.innerHTML=PIECES.map((p,i)=>`
+    <div class="obj-card" onclick="${p.status==='done'?`openDetail(${i})`:`openModal()`}">
+      <div class="obj-visual"><span class="mono serif">${p.mono}</span>
+        <span class="obj-badge ${p.status==='done'?'done':'pending'}">${p.status==='done'?'Memory ✓':'Add memory'}</span></div>
+      <div class="obj-body">
+        <div class="obj-house">${p.house}</div>
+        <div class="obj-name serif">${p.name}</div>
+        <div class="obj-date">Acquired: ${p.date}</div>
+        <div class="obj-mem serif ${p.mem?'':'empty'}">${p.mem?'"'+p.mem+'"':'+ Add your memory'}</div>
+        ${p.status==='done'?'<div class="obj-prov">Provenance verified · LIFE 360 ✓</div>':''}
+        <div class="obj-link">${p.status==='done'?'→ View full memory':'→ Document this piece'}</div>
+      </div>
+    </div>`).join('');
+}
+function openDetail(i){
+  const p=PIECES[i];
+  document.getElementById('dVisual').textContent=p.mono;
+  document.getElementById('dCrumb').textContent=p.name.split(' · ')[0];
+  document.getElementById('dHouse').textContent=p.house;
+  document.getElementById('dName').textContent=p.name;
+  document.getElementById('dAcq').textContent='Acquired: '+p.date+' · '+p.city;
+  document.getElementById('dNarr').textContent='"'+p.narr+'"';
+  document.getElementById('archMain').style.display='none';
+  document.getElementById('archDetail').style.display='block';
+  document.getElementById('screen-archive').classList.add('on-noir');
+  document.getElementById('screen-archive').classList.remove('on-ivory');
+  window.scrollTo({top:0});
+}
+function closeDetail(){
+  document.getElementById('archMain').style.display='block';
+  document.getElementById('archDetail').style.display='none';
+  document.getElementById('screen-archive').classList.add('on-ivory');
+  document.getElementById('screen-archive').classList.remove('on-noir');
+}
+function openModal(){document.getElementById('modal').classList.add('show');}
+function closeModal(){document.getElementById('modal').classList.remove('show');}
+
+// ── INHERITANCE ──
+function renderPieces(){
+  const r=document.getElementById('piecePick');
+  r.innerHTML=PIECES.map((p,i)=>`<div class="piece-pick ${i===0?'active':''}" onclick="pickPiece(${i},this)">
+    <div class="n serif">${p.name.split(' · ')[0]}</div><div class="y">${p.date}</div></div>`).join('');
+}
+function pickPiece(i,el){
+  document.querySelectorAll('.piece-pick').forEach(p=>p.classList.remove('active'));
+  el.classList.add('active');
+  document.getElementById('inhPiece').textContent=PIECES[i].name.split(' · ')[0];
+}
+
+// ── CO-CREATION ──
+function ccSelectCat(el){
+  document.querySelectorAll('.cat').forEach(c=>c.classList.remove('active'));
+  el.classList.add('active');
+  document.getElementById('ccStep2').classList.remove('active');document.getElementById('ccStep2').classList.add('done');
+  document.getElementById('ccStep3').classList.add('active');
+  document.getElementById('ccAI').classList.add('show');
+}
+function ccShowArtisan(){
+  document.getElementById('ccStep3').classList.remove('active');document.getElementById('ccStep3').classList.add('done');
+  document.getElementById('ccStep4').classList.add('active');
+  document.getElementById('ccArtisan').classList.add('show');
+}
+
+// ── INTELLIGENCE ──
+function renderMarkets(){
+  const p=document.getElementById('mktPills');
+  p.innerHTML=Object.keys(MARKETS).map((m,i)=>`<button class="pill ${i===0?'active':''}" onclick="pickMkt('${m}',this)">${m}</button>`).join('');
+  pickMkt('España');
+}
+function pickMkt(m,el){
+  document.querySelectorAll('#mktPills .pill').forEach(p=>p.classList.remove('active'));
+  if(el)el.classList.add('active');
+  const d=MARKETS[m];
+  const c=document.getElementById('mktCard');
+  c.style.opacity=0;
+  setTimeout(()=>{
+    c.innerHTML=`<div class="flag">${d.flag}</div>
+      <div class="mkt-signal serif">${d.signal}</div>
+      <div class="mkt-desc serif">${d.desc}</div>
+      <div class="mkt-style"><span style="font-size:11px;color:var(--texte-ghost);align-self:center;margin-right:6px;">MÉMOIRE style:</span>${d.style.map(s=>`<span class="tag">${s}</span>`).join('')}</div>`;
+    c.style.transition='opacity .2s';c.style.opacity=1;
+  },120);
+}
+
+// keyboard nav
+const ORDER=['archive','inheritance','cocreation','intelligence','about'];
+document.addEventListener('keydown',e=>{
+  if(document.getElementById('welcome').style.display==='none'){
+    const cur=ORDER.findIndex(n=>document.getElementById('screen-'+n).classList.contains('active'));
+    if(e.key==='ArrowRight'&&cur<ORDER.length-1)go(ORDER[cur+1]);
+    if(e.key==='ArrowLeft'&&cur>0)go(ORDER[cur-1]);
+    if(e.key==='Escape'){closeModal();closeDetail();}
+  }
+});
+
+// init
+renderArchive();renderPieces();renderMarkets();
+</script>
+</body>
+</html>
